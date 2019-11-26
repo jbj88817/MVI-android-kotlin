@@ -9,7 +9,7 @@ import us.bojie.mvi.util.GenericApiResponse
 
 interface ApiService {
     @GET("placeholder/blogs")
-    fun getBlogPost(): LiveData<GenericApiResponse<List<BlogPost>>>
+    fun getBlogPosts(): LiveData<GenericApiResponse<List<BlogPost>>>
 
     @GET("placeholder/user/{userId}")
     fun getUser(
