@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import us.bojie.mvi.util.LiveDataCallAdapterFactory
 
 object MyRetrofitBuilder {
-    const val BASE_URL = "https://open-api.xyz"
+    const val BASE_URL = "https://open-api.xyz/"
 
     val retrofitBuilder: Retrofit.Builder by lazy {
         Retrofit.Builder()
