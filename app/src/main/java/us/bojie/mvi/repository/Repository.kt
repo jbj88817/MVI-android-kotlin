@@ -1,7 +1,7 @@
 package us.bojie.mvi.repository
 
 import androidx.lifecycle.LiveData
-import com.codingwithmitch.mviexample.ui.main.state.MainViewState
+import us.bojie.mvi.ui.main.state.MainViewState
 import us.bojie.mvi.api.MyRetrofitBuilder
 import us.bojie.mvi.model.BlogPost
 import us.bojie.mvi.model.User
