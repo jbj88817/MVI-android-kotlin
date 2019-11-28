@@ -7,9 +7,11 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_main.*
 import us.bojie.mvi.R
 import us.bojie.mvi.model.BlogPost
+import us.bojie.mvi.model.User
 import us.bojie.mvi.ui.DataStateListener
 import us.bojie.mvi.ui.main.state.MainStateEvent.GetBlogPostsEvent
 import us.bojie.mvi.ui.main.state.MainStateEvent.GetUserEvent
@@ -91,6 +93,7 @@ class MainFragment : Fragment(),
 
             viewState.user?.let {
                 println("Debug : Setting user data : $it")
+                setUserProperties(it)
             }
         })
     }
@@ -106,6 +109,16 @@ class MainFragment : Fragment(),
             R.id.action_get_blogs -> triggerGetBlogsEvent()
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setUserProperties(user: User) {
+        email.text = user.email
+        username.text = user.username
+        view?.let {
+            Glide.with(it.context)
+                .load(user.image)
+                .into(image)
+        }
     }
 
     private fun triggerGetBlogsEvent() {
