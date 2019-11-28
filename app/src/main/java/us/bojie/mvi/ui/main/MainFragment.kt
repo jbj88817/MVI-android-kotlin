@@ -1,17 +1,21 @@
 package us.bojie.mvi.ui.main
 
+import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import us.bojie.mvi.R
+import us.bojie.mvi.ui.DataStateListener
 import us.bojie.mvi.ui.main.state.MainStateEvent.GetBlogPostsEvent
 import us.bojie.mvi.ui.main.state.MainStateEvent.GetUserEvent
 
 class MainFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
+
+    lateinit var dataStateListener: DataStateListener
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,6 +40,9 @@ class MainFragment : Fragment() {
         viewModel.dataState.observe(viewLifecycleOwner, Observer { dataState ->
             println("DEBUG: dataState : $dataState")
 
+            // Hand loading and message
+            dataStateListener.onDataStateChange(dataState)
+
             // Handle Data<T>
             dataState.data?.let { event ->
                 event.getContentIfNotHandled()?.let { mainViewState ->
@@ -51,17 +58,6 @@ class MainFragment : Fragment() {
                 }
             }
 
-
-            // Handle Error
-            dataState.message?.let {
-
-            }
-
-
-            // Handle loading
-            dataState.loading?.let {
-
-            }
         })
 
         viewModel.viewState.observe(viewLifecycleOwner, Observer { viewState ->
@@ -94,5 +90,14 @@ class MainFragment : Fragment() {
 
     private fun triggerGetUserEvent() {
         viewModel.setStateEvent(GetUserEvent("1"))
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        try {
+            dataStateListener = context as DataStateListener
+        } catch (e: ClassCastException) {
+            println("DEBUG: $context must implement DataStateListener")
+        }
     }
 }
