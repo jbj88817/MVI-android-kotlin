@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Redirecting...</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,6 +16,7 @@
             background-color: #121212;
             color: #ffffff;
         }
+
         .loader {
             border: 4px solid #333;
             border-top: 4px solid #6C63FF;
@@ -24,36 +26,60 @@
             animation: spin 1s linear infinite;
             margin-bottom: 20px;
         }
+
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
         }
-        a {
-            color: #6C63FF;
+
+        .button {
+            background-color: #6C63FF;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
             text-decoration: none;
+            font-weight: bold;
+            margin-top: 20px;
         }
     </style>
     <script>
-        window.onload = function() {
-            // Get the query parameters (code, state, etc.)
+        window.onload = function () {
             const params = window.location.search;
-            // Construct the custom scheme URL
-            const targetUrl = 'aitimemanager://callback' + params;
-            
-            // Update the manual link
-            document.getElementById('link').href = targetUrl;
+            // Android Intent URL
+            // scheme: aitimemanager
+            // host: callback
+            // package: us.bojie.ai_time_manager
+            const intentUrl = 'intent://callback' + params + '#Intent;scheme=aitimemanager;package=us.bojie.ai_time_manager;end';
 
-            // Attempt automatic redirect
-            window.location.href = targetUrl;
-            
-            // Fallback: Close window after a delay if opened in a popup (optional)
-            // setTimeout(function() { window.close(); }, 2000);
+            // Fallback custom scheme URL
+            const fallbackUrl = 'aitimemanager://callback' + params;
+
+            document.getElementById('btn').href = intentUrl;
+            document.getElementById('fallback-link').href = fallbackUrl;
+
+            // Try to redirect via Intent
+            window.location.href = intentUrl;
+
+            // Fallback after a delay
+            setTimeout(function () {
+                window.location.href = fallbackUrl;
+            }, 500);
         };
     </script>
 </head>
+
 <body>
     <div class="loader"></div>
     <p>Redirecting to AI Time Manager...</p>
-    <p>If nothing happens, <a id="link" href="#">click here</a>.</p>
+    <a id="btn" class="button" href="#">Open App</a>
+    <p style="margin-top: 20px; font-size: 0.8em; color: #888;">
+        If that doesn't work, <a id="fallback-link" href="#" style="color: #888;">click here</a>.
+    </p>
 </body>
+
 </html>
