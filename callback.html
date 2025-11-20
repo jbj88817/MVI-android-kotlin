@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            color: #ffffff;
+        }
+        .loader {
+            border: 4px solid #333;
+            border-top: 4px solid #6C63FF;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        a {
+            color: #6C63FF;
+            text-decoration: none;
+        }
+    </style>
+    <script>
+        window.onload = function() {
+            // Get the query parameters (code, state, etc.)
+            const params = window.location.search;
+            // Construct the custom scheme URL
+            const targetUrl = 'aitimemanager://callback' + params;
+            
+            // Update the manual link
+            document.getElementById('link').href = targetUrl;
+
+            // Attempt automatic redirect
+            window.location.href = targetUrl;
+            
+            // Fallback: Close window after a delay if opened in a popup (optional)
+            // setTimeout(function() { window.close(); }, 2000);
+        };
+    </script>
+</head>
+<body>
+    <div class="loader"></div>
+    <p>Redirecting to AI Time Manager...</p>
+    <p>If nothing happens, <a id="link" href="#">click here</a>.</p>
+</body>
+</html>
